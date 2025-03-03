@@ -7,13 +7,12 @@ const router = express.Router();
 router.post('/add', async (req, res)=>{
     //http://localhost:5000/api/task/add
     const {fullName, description, checkInTime, checkOutTime} = req.body;
+    let problem = "";
     try {
-        let employee = await prisma.employee.findUnique({
-            where: {
-                fullName: fullName
-            }
-        });
-
+        problem = "error here";
+        let employee = await prisma.employee.findMany();
+        problem = "first spot";
+        employee = employee.find(emp => emp.fullName === fullName);
         if (!employee) {
             employee = await prisma.employee.create({
                 data: {
@@ -21,6 +20,7 @@ router.post('/add', async (req, res)=>{
                 }
             });
         }
+        problem = "second spot";
 
         const employeeId = employee.employeeId;
 
@@ -32,10 +32,10 @@ router.post('/add', async (req, res)=>{
                 employeeId: employeeId
             }
         });
-
+        problem = "third spot";
         res.status(201).json({ message: 'Task created successfully', task });
     } catch (error) {
-        res.status(500).json({ message: 'Error creating task', error });
+        res.status(500).json({ message: 'Error creating task', problem });
     }
 });
 
