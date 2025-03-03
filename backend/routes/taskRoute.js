@@ -5,7 +5,7 @@ const router = express.Router();
 
 
 router.post('/add', async (req, res)=>{
-    //http:localhost:5000/api/task/add
+    //http://localhost:5000/api/task/add
     const {fullName, description, checkInTime, checkOutTime} = req.body;
     try {
         let employee = await prisma.employee.findUnique({
@@ -22,7 +22,7 @@ router.post('/add', async (req, res)=>{
             });
         }
 
-        const employeeId = employee.id;
+        const employeeId = employee.employeeId;
 
         const task = await prisma.task.create({
             data: {
