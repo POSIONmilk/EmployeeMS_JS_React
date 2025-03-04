@@ -23,8 +23,8 @@ model Employee{
 model task{
   taskId       Int      @id @default(autoincrement())
   description  String
-  checkInTime  DateTime
-  checkOutTime DateTime
+  checkInTime  String
+  checkOutTime String
   employeeId   Int
   employee     Employee @relation(fields: [employeeId], references: [employeeId])
 }

@@ -48,30 +48,28 @@ function InfoPage() {
     // Add a new item and reset search results
     const handleAddItem = async (newItem) => {
         console.log("New item to be added:", newItem);
-        // try {
-        //     const response = await fetch("http://localhost:5000/api/task/add", {
-        //         method: "POST",
-        //         headers: {
-        //             "Content-Type": "application/json",
-        //         },
-        //         body: JSON.stringify({
-        //             fullName: newItem.fullName,
-        //             description: newItem.description,
-        //             checkInTime: newItem.checkInTime,
-        //             checkOutTime: newItem.checkOutTime,
-        //         }),
-        //     });
+        try {
+            const response = await fetch("http://localhost:5000/api/task/add", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    fullName: newItem.fullName,
+                    description: newItem.description,
+                    checkInTime: newItem.checkInTime,
+                    checkOutTime: newItem.checkOutTime,
+                }),
+            });
 
-        //     if (response.ok) {
-        //         const addedItem = await response.json();
-        //         setItems((prevItems) => [...prevItems, addedItem]);
-        //         setFilteredItems((prevItems) => [...prevItems, addedItem]);
-        //     } else {
-        //         console.error("Failed to add item:", response.statusText);
-        //     }
-        // } catch (error) {
-        //     console.error("Error adding item:", error);
-        // }
+            if (response.ok) {
+                fetchData();
+            } else {
+                console.error("Failed to add item:", response.statusText);
+            }
+        } catch (error) {
+            console.error("Error adding item:", error);
+        }
     };
 
     return (
