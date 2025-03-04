@@ -22,8 +22,15 @@ function InfoPage() {
     const fetchData = async () => {
         try {
             const response = await fetch("http://localhost:5000/api/task");
-            setItems(response.data);
-            setFilteredItems(response.data);
+            const data = await response.json();
+            const formattedData = data.map(item => ({
+                fullName: `Employee ${item.employeeId}`,
+                description: item.description,
+                checkInTime: item.checkInTime,
+                checkOutTime: item.checkOutTime
+            }));
+            setItems(formattedData);
+            setFilteredItems(formattedData);
         } catch (error) {
             console.error("Error fetching data:", error);
         }
@@ -40,30 +47,31 @@ function InfoPage() {
 
     // Add a new item and reset search results
     const handleAddItem = async (newItem) => {
-        try {
-            const response = await fetch("http://localhost:5000/api/task/add", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    fullName: newItem.fullName,
-                    description: newItem.description,
-                    checkInTime: newItem.checkInTime,
-                    checkOutTime: newItem.checkOutTime,
-                }),
-            });
+        console.log("New item to be added:", newItem);
+        // try {
+        //     const response = await fetch("http://localhost:5000/api/task/add", {
+        //         method: "POST",
+        //         headers: {
+        //             "Content-Type": "application/json",
+        //         },
+        //         body: JSON.stringify({
+        //             fullName: newItem.fullName,
+        //             description: newItem.description,
+        //             checkInTime: newItem.checkInTime,
+        //             checkOutTime: newItem.checkOutTime,
+        //         }),
+        //     });
 
-            if (response.ok) {
-                const addedItem = await response.json();
-                setItems((prevItems) => [...prevItems, addedItem]);
-                setFilteredItems((prevItems) => [...prevItems, addedItem]);
-            } else {
-                console.error("Failed to add item:", response.statusText);
-            }
-        } catch (error) {
-            console.error("Error adding item:", error);
-        }
+        //     if (response.ok) {
+        //         const addedItem = await response.json();
+        //         setItems((prevItems) => [...prevItems, addedItem]);
+        //         setFilteredItems((prevItems) => [...prevItems, addedItem]);
+        //     } else {
+        //         console.error("Failed to add item:", response.statusText);
+        //     }
+        // } catch (error) {
+        //     console.error("Error adding item:", error);
+        // }
     };
 
     return (

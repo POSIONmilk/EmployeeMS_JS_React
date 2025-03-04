@@ -14,25 +14,12 @@ function AddItemForm({ onAddItem }) {
 
         const newItem = { fullName, description, checkInTime, checkOutTime };
 
-        fetch("http://localhost:5000/api/task/add", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(newItem),
-        })
-        .then(response => response.json())
-        .then(data => {
-            onAddItem(data);
-            setFullName("");
-            setDescription("");
-            setCheckInTime("");
+        onAddItem(newItem);
+        setFullName("");
+        setDescription("");
+        setCheckInTime("");
             setCheckOutTime("");
-        })
-        .catch(error => {
-            console.error("Error:", error);
-        });
-    };
+        };
 
 return (
     <form onSubmit={handleSubmit} style={{ marginTop: "10px" }}>
